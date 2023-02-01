@@ -15,6 +15,37 @@ string efioption;
 bool usingSwap;
 bool isEFI;
 
+void InstallProcess()
+{
+    cout << "Installing...." << endl;
+    string exec4 = "unsquashfs -f -d /media/target/ /media/cdrom/casper/filesystem.squashfs";
+    system(exec4.c_str());
+    cout << "Installing bootloader (grub)" << endl;
+    string exec5 = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
+    system(exec5.c_str());
+    string exec6 = "mount --bind /proc/ /media/target/proc/";
+    string exec10 = "mount --bind /sys/ /media/target/sys/";
+    string exec12 = "mount --bind /dev/ /media/target/dev/";
+    string exec13 = "apt install arch-install-scripts -y || genfstab -U /media/target/ >> /media/target/etc/fstab";
+    cout << "Installing genfstab and generating fstab for the target disk" << endl;
+    system(exec13.c_str());
+    system(exec6.c_str());
+    system(exec10.c_str());
+    system(exec12.c_str());
+    if(isEFI==false)
+    {
+        cout << "Installing bootloader (grub)" << endl;
+        system("chroot /media/target update-grub");
+    } else {
+        cout << "Installing bootloader (grub)" << endl;
+        string execeficmd = "chroot /media/target grub-install --target=x86_64-efi --root-directory=/media/target/ --boot-directory=/media/target/boot/efi/" + disk;
+        system(execeficmd.c_str());
+        cout << "Installation complete!" << endl;
+    }
+}
+
+
+
 void makeEFI()
 {
 	cout << "Making partitions" << endl;
@@ -48,7 +79,6 @@ void Install()
     }
     else {
             try {
-
                 cout << "Enter to cfdisk " + disk << endl;
                 string exec = "cfdisk " + disk;
                 system(exec.c_str());
@@ -75,6 +105,7 @@ void Install()
 				if(isEFI == true)
 				{
 					makeEFI();
+					InstallProcess();
 
 				} else {
 					cout << "Formating partitions" << endl;
@@ -96,40 +127,13 @@ void Install()
 				{
 					makeEFI();
 				}
-				cout << "Installing...." << endl;
-				string exec4 = "unsquashfs -f -d /media/target/ /media/cdrom/casper/filesystem.squashfs";
-				system(exec4.c_str());
-				cout << "Installing bootloader (grub)" << endl;
-				string exec5 = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
-				system(exec5.c_str());
-				string exec6 = "mount --bind /proc/ /media/target/proc/";
-				string exec10 = "mount --bind /sys/ /media/target/sys/";
-				string exec12 = "mount --bind /dev/ /media/target/dev/";
-				string exec13 = "apt install arch-install-scripts -y || genfstab -U /media/target/ >> /media/target/etc/fstab";
-				cout << "Installing genfstab and generating fstab for the target disk" << endl;
-				system(exec13.c_str());
-				system(exec6.c_str());
-				system(exec10.c_str());
-				system(exec12.c_str());
-				if(isEFI==false)
-				{
-					cout << "Installing bootloader (grub)" << endl;
-					system("chroot /media/target update-grub");
-				} else {
-					cout << "Installing bootloader (grub)" << endl;
-					string execeficmd = "chroot /media/target grub-install --target=x86_64-efi --root-directory=/media/target/ --boot-directory=/media/target/boot/efi/" + disk;
-					system(execeficmd.c_str());
-				cout << "Installation complete!" << endl;
-				}
 				}
             }
             catch (string ex)
             {
                 cout << ex << endl;
             }
-
-
-    }
+            }
 }
 
 int main()
