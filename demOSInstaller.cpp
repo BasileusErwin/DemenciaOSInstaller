@@ -26,33 +26,34 @@ void InstallProcess()
     	system(exec4.c_str());
 	//
 	string exec6 = "mount --bind /proc/ /media/target/proc/";
-    string exec10 = "mount --bind /sys/ /media/target/sys/";
-    string exec12 = "mount --bind /dev/ /media/target/dev/";
+    	string exec10 = "mount --bind /sys/ /media/target/sys/";
+    	string exec12 = "mount --bind /dev/ /media/target/dev/";
 
 	if(isEFI==false)
 	{
 		// Instalar gestor de arrange GRUB en modo legacy
 		cout << "Installing bootloader (grub)" << endl;
 		// Comando grub-install --target=i386-pc (modo legacy) --root=directry= (ruta de punto de montaje)
-    	string exec5 = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
-    	system(exec5.c_str());
+    		string exec5 = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
+    		system(exec5.c_str());
 		// Cambiar a la instalación de destino y ejecutar update-grub para generar la configuración del GRUB
-        system("chroot /media/target update-grub");
+        	system("chroot /media/target update-grub");
+		cout << "Installation complete!" << endl;
 
-    } else {
-            cout << "Installing bootloader (systemd-boot)" << endl;
-        	string execeficmd = "bootctl install --esp-path " + disk+"1";
+    	} else {
+            	cout << "Installing bootloader (systemd-boot)" << endl;
+        	string execeficmd = "bootctl install --esp-path=/media/target/boot";
         	system(execeficmd.c_str());
-        	cout << "Installation complete!" << endl;
+		system("chroot /media/target");
 	}
 	// Instala el paquete arch-install-scripts que contiene el genfstab para poder generar el fstab (/etc/fstab)
-	string exec13 = "apt install arch-install-scripts -y || genfstab -U /media/target/ >> /media/target/etc/fstab";
+	string exec13 = "apt install arch-install-scripts -y";
     	cout << "Installing genfstab and generating fstab for the target disk" << endl;
 	// Ejecutar las ordenes
     	system(exec13.c_str());
-    	system(exec6.c_str());
-    	system(exec10.c_str());
-    	system(exec12.c_str());
+	system("genfstab -U /media/target/ >> /media/target/etc/fstab");
+	cout << "FSTAB Generated sucessfully if not apears nothing!" << endl;
+	cout << "Installation complete!" << endl;
 }
 
 
@@ -81,8 +82,8 @@ void Install()
     else {
             try {
 		// Iniciar CFDISK
-                cout << "Enter to cfdisk " + disk << endl;
-                string exec = "cfdisk " + disk;
+                cout << "Enter to fdisk " + disk << endl;
+                string exec = "fdisk " + disk;
                 system(exec.c_str());
                 cout << "OK" << endl;
 		cout << "You do want use SWAP? (yes/no)" << endl;
