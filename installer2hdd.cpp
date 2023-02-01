@@ -21,14 +21,14 @@ bool isEFI; // Comprobar si la instalación es EFI y no.
 void InstallProcess()
 {
     	cout << "Installing...." << endl;
-	// Descomprimir el archivo squashfs RESPONSABLE de descomprimir el sistema en el destino 
+	// Descomprimir el archivo squashfs RESPONSABLE de descomprimir el sistema en el destino
 	string exec4 = "unsquashfs -f -d /media/target/ /media/cdrom/casper/filesystem.squashfs";
     	system(exec4.c_str());
-	// 
+	//
 	string exec6 = "mount --bind /proc/ /media/target/proc/";
     	string exec10 = "mount --bind /sys/ /media/target/sys/";
     	string exec12 = "mount --bind /dev/ /media/target/dev/";
-	
+
 	if(isEFI==false)
 	{
 		// Instalar gestor de arrange GRUB en modo legacy
@@ -38,7 +38,7 @@ void InstallProcess()
     		system(exec5.c_str());
 		// Cambiar a la instalación de destino y ejecutar update-grub para generar la configuración del GRUB
         	system("chroot /media/target update-grub");
-		
+
     	} else {
         	cout << "Installing bootloader (grub)" << endl;
 		// Lo mismo de arriba soloo que en --boot-directory (se usa para especificar la ruta de donde detectara el GRUB (grub.cfg)
@@ -60,12 +60,13 @@ void InstallProcess()
 // Metodo para crear la particion EFI y montar sus respectivas rutas.
 void makeEFI()
 {
-	cout << "Making partitions" << endl;
-	string exec0 = "mkdir /media/target/boot/ || mkdir /media/target/boot/efi"
-	string execfat = "mkfs -t vfat -F 32 " + disk +"1";
+    string exec0 = "mkdir /media/target/boot/ || mkdir /media/target/boot/efi";
+    string execfat = "mkfs -t vfat " + disk + "1";
 	string exec2 = "mount -t vfat " + disk+"1" + " /media/target/boot/efi";
 	string exec3 = "mkfs -t ext4 " + disk +"2";
 	string exec4 = "mount -t ext4" + disk+"2" + " /media/target/";
+    cout << "Making partitions" << endl;
+
 	system(execfat.c_str());
 	system(exec0.c_str());
 	system(exec2.c_str());
