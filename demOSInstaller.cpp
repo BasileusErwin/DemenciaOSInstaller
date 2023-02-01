@@ -41,6 +41,9 @@ void InstallProcess()
 		cout << "Installation complete!" << endl;
 
     	} else {
+		system(exec13.c_str());
+		system(exec10.c_str());
+		system(exec12.c_str());
             	cout << "Installing bootloader (systemd-boot)" << endl;
         	string execeficmd = "bootctl install --esp-path=/media/target/boot";
         	system(execeficmd.c_str());
@@ -50,7 +53,6 @@ void InstallProcess()
 	string exec13 = "apt install arch-install-scripts -y";
     	cout << "Installing genfstab and generating fstab for the target disk" << endl;
 	// Ejecutar las ordenes
-    	system(exec13.c_str());
 	system("genfstab -U /media/target/ >> /media/target/etc/fstab");
 	cout << "FSTAB Generated sucessfully if not apears nothing!" << endl;
 	cout << "Installation complete!" << endl;
@@ -81,10 +83,11 @@ void Install()
     }
     else {
             try {
-		// Iniciar CFDISK
-                cout << "Enter to fdisk " + disk << endl;
-                string exec = "fdisk " + disk;
-                system(exec.c_str());
+		// Iniciar GPARTED
+                cout << "Enter to gparted " + disk << endl;
+                string installgparted = "apt install gparted -y";
+                system(installgparted.c_str());
+		system("gparted");
                 cout << "OK" << endl;
 		cout << "You do want use SWAP? (yes/no)" << endl;
 		cin >> swapoption;
