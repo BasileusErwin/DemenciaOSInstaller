@@ -46,16 +46,19 @@ void InstallProcess()
 		system(exec12.c_str());
             	cout << "Installing bootloader (grub)" << endl;
         	//string execeficmd = "bootctl install --esp-path=/media/target/boot";
-		string execeficmd = "grub-install --target=x86_64-efi --root-directory=/media/target/ --efi-directory=/media/target/boot";
+		string runchroot = "chroot /media/target mount " + disk+"1" + "/boot";
+		
+		string execeficmd = "grub-install --target=x86_64-efi --efi-directory=/boot";
+		system(runchroot.c_str());
         	system(execeficmd.c_str());
+		system("exit");
 		
 	}
 	// Instala el paquete arch-install-scripts que contiene el genfstab para poder generar el fstab (/etc/fstab)
 	string exec13 = "apt install arch-install-scripts -y";
-	system("chroot /media/target");
+	system("chroot /media/target genfstab -U / >> /etc/fstab");
 	cout << "Installing genfstab and generating fstab for the target disk" << endl;
 	// Ejecutar las ordenes
-	system("genfstab -U / >> /media/target/etc/fstab");
 	cout << "FSTAB Generated sucessfully if not apears nothing!" << endl;
 	cout << "Generating grub entries..." << endl;
 	system("update-grub");
