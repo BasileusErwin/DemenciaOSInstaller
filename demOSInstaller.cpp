@@ -41,7 +41,7 @@ void InstallProcess()
 		cout << "Installation complete!" << endl;
 
     	} else {
-		system(exec13.c_str());
+		system(exec6.c_str());
 		system(exec10.c_str());
 		system(exec12.c_str());
             	cout << "Installing bootloader (systemd-boot)" << endl;
