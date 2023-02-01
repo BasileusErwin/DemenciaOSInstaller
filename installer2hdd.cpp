@@ -45,11 +45,15 @@ void Install()
                 string exec6 = "mount --bind /proc/ /media/target/proc/";
                 string exec10 = "mount --bind /sys/ /media/target/sys/";
                 string exec12 = "mount --bind /dev/ /media/target/dev/";
+                string exec15 = "apt install arch-install-scripts -y";
+                string exec20 = "genfstab -U /media/target/etc/fstab";
                 cout << "Write update-grub in chroot for make grub config!" << endl;
                 system(exec6.c_str());
                 system(exec10.c_str());
                 system(exec12.c_str());
-                system("chroot /media/target"(;
+                system(exec15.c_str());
+                system(exec20.c_str());
+                system("chroot /media/target");
                 cout << "Installation complete!" << endl;
                 cout << "The computer restarts now!";
                 system("systemctl reboot");
