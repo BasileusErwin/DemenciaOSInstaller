@@ -45,7 +45,8 @@ void InstallProcess()
 		system(exec10.c_str());
 		system(exec12.c_str());
             	cout << "Installing bootloader (systemd-boot)" << endl;
-        	string execeficmd = "bootctl install --esp-path=/media/target/boot";
+        	//string execeficmd = "bootctl install --esp-path=/media/target/boot";
+		string execeficmd = "grub-install --target=x86_64-efi --root-directory=/media/target/ --boot-directory=/media/target/boot";
         	system(execeficmd.c_str());
 		
 	}
@@ -54,8 +55,10 @@ void InstallProcess()
 	system("chroot /media/target");
 	cout << "Installing genfstab and generating fstab for the target disk" << endl;
 	// Ejecutar las ordenes
-	system("genfstab -U /media/target/ >> /media/target/etc/fstab");
+	system("genfstab -U / >> /media/target/etc/fstab");
 	cout << "FSTAB Generated sucessfully if not apears nothing!" << endl;
+	cout << "Generating systemd-boot entries..." << endl;
+	system("kernel-install /boot/");
 	cout << "Installation complete!" << endl;
 }
 
