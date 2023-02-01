@@ -37,7 +37,7 @@ void Install()
                 string exec3 = "mount -t ext4 " + disk + " /media/target";
                 system(exec3.c_str());
                 cout << "Installing...." << endl;
-                string exec4 = "unsquashfs " + disk + " -d " + "/media/target " + "/media/sblive/casper/filesystem.squashfs";
+                string exec4 = "unsquashfs " + disk + " -d " + "/media/target " + "/media/cdrom/casper/filesystem.squashfs";
                 system(exec4.c_str());
                 cout << "Installing bootloader (grub)" << endl;
                 string exec5 = "grub-install --target=i386-pc " + disk;
