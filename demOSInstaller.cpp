@@ -170,6 +170,7 @@ void Install() {
   }
 }
 
+// Metodo inicial
 int main() {
   while (true) {
     cout << "Welcome to the Demencia OS Installer. What do you want?" << endl;
