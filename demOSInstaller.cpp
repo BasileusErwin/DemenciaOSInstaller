@@ -37,31 +37,22 @@ void InstallProcess()
     		string exec5 = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
     		system(exec5.c_str());
 		// Cambiar a la instalación de destino y ejecutar update-grub para generar la configuración del GRUB
-        	system("chroot /media/target update-grub");
+        	cout << "Use genfstab -U / >> /etc/fstab and finally use update-grub" << endl;
+		system("chroot /media/target");
 		cout << "Installation complete!" << endl;
 
     	} else {
 		system(exec6.c_str());
 		system(exec10.c_str());
 		system(exec12.c_str());
-            	cout << "Installing bootloader (grub)" << endl;
+            	cout << "FIRST COMMAND: You are right now in the new installation of DemenciaOS (chroot). put mkdir -v /mnt/boottemp and cp -rv /boot /mnt/boottemp" << endl;
+		cout << "SECOND COMMAND: put mount /dev/sdx1 /boot or /dev/nvme0n1p1 /boot (NVMe) and grub-install --target=x86_64-efi --efi-directory=/boot"; 
+		cout << "THIRD COMMAND: put cp -rv /mnt/boottemp/boot/* /boot/ and finally. put update-grub and finally use command to exit";
         	//string execeficmd = "bootctl install --esp-path=/media/target/boot";
-		string runchroot = "chroot /media/target mount " + disk+"1" + "/boot";
-		string execeficmd = "grub-install --target=x86_64-efi --efi-directory=/boot";
-		system(runchroot.c_str());
-        	system(execeficmd.c_str());
-		system("exit");
+		system("chroot /media/target");
+        	cout << "Installation complete you can reboot with sudo reboot or systemctl reboot" << endl;
 		
 	}
-	// Instala el paquete arch-install-scripts que contiene el genfstab para poder generar el fstab (/etc/fstab)
-	string exec13 = "apt install arch-install-scripts -y";
-	system("chroot /media/target genfstab -U / >> /etc/fstab");
-	cout << "Installing genfstab and generating fstab for the target disk" << endl;
-	// Ejecutar las ordenes
-	cout << "FSTAB Generated sucessfully if not apears nothing!" << endl;
-	cout << "Generating grub entries..." << endl;
-	system("update-grub");
-	cout << "Installation complete!" << endl;
 }
 
 
