@@ -44,7 +44,7 @@ void InstallProcess()
 		system(exec6.c_str());
 		system(exec10.c_str());
 		system(exec12.c_str());
-            	cout << "Installing bootloader (systemd-boot)" << endl;
+            	cout << "Installing bootloader (grub)" << endl;
         	//string execeficmd = "bootctl install --esp-path=/media/target/boot";
 		string execeficmd = "grub-install --target=x86_64-efi --root-directory=/media/target/ --boot-directory=/media/target/boot";
         	system(execeficmd.c_str());
@@ -57,8 +57,8 @@ void InstallProcess()
 	// Ejecutar las ordenes
 	system("genfstab -U / >> /media/target/etc/fstab");
 	cout << "FSTAB Generated sucessfully if not apears nothing!" << endl;
-	cout << "Generating systemd-boot entries..." << endl;
-	system("kernel-install /boot/");
+	cout << "Generating grub entries..." << endl;
+	system("update-grub");
 	cout << "Installation complete!" << endl;
 }
 
@@ -132,8 +132,8 @@ void Install()
 					system(execfat.c_str());
 					system(exec4.c_str());
 					system(exec3.c_str());
-					cout << "Installing systemd-boot..." << endl;
-					system("apt install systemd-bootchart -y");
+					//cout << "Installing systemd-boot..." << endl;
+					//system("apt install systemd-bootchart -y");
 					cout << "Success!" << endl;
 					InstallProcess();
 				// Si no es asi inicia las ordenes para el modo Legacy (BIOS)
