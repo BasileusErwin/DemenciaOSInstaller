@@ -82,9 +82,11 @@ void Install()
     }
     else {
             try {
-		// Iniciar FDISK
-                cout << "Enter to fdisk " + disk << endl;
-                string fdiskrun = "fdisk " + disk;
+		// Iniciar GPARTED
+                cout << "Enter to gparted " + disk << endl;
+		string runapt = "apt install gparted -y";
+		system(runapt.c_str());
+                string fdiskrun = "gparted " + disk;
                 system(fdiskrun.c_str());
                 cout << "OK" << endl;
 		cout << "You do want use SWAP? (yes/no)" << endl;
