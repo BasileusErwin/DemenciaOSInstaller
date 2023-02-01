@@ -57,28 +57,6 @@ void InstallProcess()
 }
 
 
-// Metodo para crear la particion EFI y montar sus respectivas rutas.
-void makeEFI()
-{
-	string runMkdirTargetDir = "mkdir /media/target/";
-    	string exec0 = "mkdir /media/target/boot/";
-	string mkbootefidir = "mkdir /media/target/boot/efi";
-    	string execfat = "mkfs -t vfat " + disk + "1";
-	string exec2 = "mount -t vfat " + disk+"1" + " /media/target/boot/efi";
-	string exec3 = "mkfs -t ext4 " + disk +"2";
-	string exec4 = "mount " + disk+"2" + " /media/target";
-    	cout << "Making partitions" << endl;
-	system(runMkdirTargetDir.c_str());
-	system(exec0.c_str());
-	system(mkbootefidir.c_str());
-	system(execfat.c_str());
-	system(exec4.c_str());
-	system(exec0.c_str());
-	system(exec3.c_str());
-	
-	cout << "Success!" << endl;
-
-}
 // Metodo para crear la particion SWAP.
 void MakeSwap()
 {
@@ -132,7 +110,22 @@ void Install()
 				if(isEFI == true)
 				{
 					// Ejecutar metodos para el EFI
-					makeEFI();
+					string runMkdirTargetDir = "mkdir /media/target/";
+    					string exec0 = "mkdir /media/target/boot/";
+					string mkbootefidir = "mkdir /media/target/boot/efi";
+    					string execfat = "mkfs.vfat " + disk + "1";
+					string exec2 = "mount " + disk+"1" + " /media/target/boot/efi";
+					string exec3 = "mkfs.ext4 " + disk +"2";
+					string exec4 = "mount " + disk+"2" + " /media/target";
+    					cout << "Making partitions" << endl;
+					system(runMkdirTargetDir.c_str());
+					system(exec0.c_str());
+					system(mkbootefidir.c_str());
+					system(execfat.c_str());
+					system(exec4.c_str());
+					system(exec0.c_str());
+					system(exec3.c_str());
+					cout << "Success!" << endl;
 					InstallProcess();
 				// Si no es asi inicia las ordenes para el modo Legacy (BIOS)
 				} else {
