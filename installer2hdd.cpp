@@ -67,7 +67,7 @@ void Install()
 int main()
 {
     cout << "Welcome to the Demencia OS Installer. What do you want?" << endl;
-    cout << "1.- Install" << endl;
+    cout << "1.- Install (LEGACY ONLY) (EFI COMING SOON...)" << endl;
     cout << "2.- Exit" << endl;
     cout << "Do you want?" << endl;
     cin >> option;
