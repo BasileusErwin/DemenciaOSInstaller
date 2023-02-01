@@ -11,6 +11,7 @@ string disk;
 string efipart;
 string language;
 string swappart;
+string efioption;
 bool usingSwap;
 bool isEFI;
 
@@ -54,7 +55,15 @@ void Install()
                 cout << "OK" << endl;
 				cout << "You do want use SWAP? (yes/no)" << endl;
 				cin >> swapoption;
-
+                cout << "Is EFI? (yes/no)" << endl;
+                cin >> efioption;
+                if (efioption==true)
+                {
+                    isEFI = true;
+                }
+                else {
+                    isEFI = false;
+                }
 
 				if (swapoption=="yes")
 				{
@@ -126,7 +135,7 @@ void Install()
 int main()
 {
     cout << "Welcome to the Demencia OS Installer. What do you want?" << endl;
-    cout << "1.- Install (LEGACY ONLY) (EFI COMING SOON...)" << endl;
+    cout << "1.- Install" << endl;
     cout << "2.- Exit" << endl;
     cout << "Do you want?" << endl;
     cin >> option;
