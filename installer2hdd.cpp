@@ -60,12 +60,14 @@ void InstallProcess()
 // Metodo para crear la particion EFI y montar sus respectivas rutas.
 void makeEFI()
 {
-    string exec0 = "mkdir /media/target/boot/ || mkdir /media/target/boot/efi";
-    string execfat = "mkfs -t vfat " + disk + "1";
+	string runMkdirTargetDir = "mkdir /media/target/";
+    	string exec0 = "mkdir /media/target/boot/ || mkdir /media/target/boot/efi";
+    	string execfat = "mkfs -t vfat " + disk + "1";
 	string exec2 = "mount -t vfat " + disk+"1" + " /media/target/boot/efi";
 	string exec3 = "mkfs -t ext4 " + disk +"2";
 	string exec4 = "mount -t ext4" + disk+"2" + " /media/target/";
-    cout << "Making partitions" << endl;
+    	cout << "Making partitions" << endl;
+	system(runMkdirTargetDir.c_str());
 	system(exec0.c_str());
 	system(execfat.c_str());
 	system(exec2.c_str());
