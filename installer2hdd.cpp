@@ -45,8 +45,8 @@ void Install()
                 string exec6 = "grub-mkconfig -o /media/target/boot/grub/grub.cfg";
                 system(exec6.c_str());
                 cout << "Installation complete!" << endl;
-                cout << "The computer restarts now!";
-                system("systemctl reboot");
+                //cout << "The computer restarts now!";
+                //system("systemctl reboot");
             }
             catch (string ex)
             {
