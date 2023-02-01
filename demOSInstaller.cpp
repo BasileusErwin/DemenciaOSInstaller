@@ -120,7 +120,7 @@ void Install()
 					string runMkdirTargetDir = "mkdir /media/target/";
     				string exec0 = "mkdir /media/target/boot/";
 					string mkbootefidir = "mkdir /media/target/boot/efi";
-    				string execfat = "mkfs.vfat " + disk + "1";
+    				string execfat = "mkfs.vfat -F 32 " + disk + "1";
 					string exec2 = "mount " + disk+"1" + " /media/target/boot";
 					string exec3 = "mkfs.ext4 " + disk +"2";
 					string exec4 = "mount " + disk+"2" + " /media/target";
