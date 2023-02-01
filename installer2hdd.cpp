@@ -34,13 +34,13 @@ void Install()
                 cout << disk + "1" + "it's created sucessfully!" << endl;
                 system("mkdir /media/target");
                 cout << "Mounting partitions...." << endl;
-                string exec3 = "mount -t ext4 " + disk + " /media/target";
+                string exec3 = "mount -t ext4 " + disk+"1" + " /media/target";
                 system(exec3.c_str());
                 cout << "Installing...." << endl;
-                string exec4 = "unsquashfs " + disk + " -d " + "/media/target " + "/media/cdrom/casper/filesystem.squashfs";
+                string exec4 = "unsquashfs -f -d" + " /media/target/ " + "/media/cdrom/casper/filesystem.squashfs";
                 system(exec4.c_str());
                 cout << "Installing bootloader (grub)" << endl;
-                string exec5 = "grub-install --target=i386-pc " + disk;
+                string exec5 = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
                 system(exec5.c_str());
                 string exec6 = "grub-mkconfig -o /media/target/boot/grub/grub.cfg";
                 system(exec6.c_str());
