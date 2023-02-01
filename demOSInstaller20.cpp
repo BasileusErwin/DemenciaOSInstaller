@@ -123,11 +123,12 @@ void Install()
 				if(isEFI == true)
 				{
 					if (empieza_con(disk,"/dev/nvme0n1"))
-                    {
-                        disk = disk+"p";
-                    } else {
-                        disk = disk;
-                    }
+                    			{
+                        			disk = disk+"p";
+                    			} else {
+                        			disk = disk;
+                    			}
+					
 					// Ejecutar metodos para el EFI
 					string runMkdirTargetDir = "mkdir /media/target/";
     					string exec0 = "mkdir /media/target/boot/";
@@ -153,7 +154,7 @@ void Install()
 					cout << "Formating partitions" << endl;
 					string exec2 = "mkfs.ext4 " + disk=disk+"1";
 					system(exec2.c_str());
-					cout << disk + "1" + " it's created sucessfully!" << endl;
+					cout << disk = disk + " it's created sucessfully!" << endl;
 					system("mkdir /media/target");
 					cout << "Mounting partitions...." << endl;
 					string exec3 = "mount -t ext4 " + disk=disk+"1" + " /media/target";
