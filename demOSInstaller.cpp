@@ -46,7 +46,7 @@ void InstallProcess()
 		system(exec12.c_str());
             	cout << "Installing bootloader (grub)" << endl;
         	//string execeficmd = "bootctl install --esp-path=/media/target/boot";
-		string execeficmd = "grub-install --target=x86_64-efi --root-directory=/media/target/ --boot-directory=/media/target/boot";
+		string execeficmd = "grub-install --target=x86_64-efi --root-directory=/media/target/ --efi-directory=/media/target/boot";
         	system(execeficmd.c_str());
 		
 	}
