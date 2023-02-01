@@ -31,7 +31,7 @@ void Install()
                 cout << "Formating partitions" << endl;
                 string exec2 = "mkfs.ext4 " + disk+"1";
                 system(exec2.c_str());
-                cout << disk + "1" + "it's created sucessfully!" << endl;
+                cout << disk + "1" + " it's created sucessfully!" << endl;
                 system("mkdir /media/target");
                 cout << "Mounting partitions...." << endl;
                 string exec3 = "mount -t ext4 " + disk+"1" + " /media/target";
