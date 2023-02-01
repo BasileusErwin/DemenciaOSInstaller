@@ -133,10 +133,10 @@ void Install()
 					string runMkdirTargetDir = "mkdir /media/target/";
     					string exec0 = "mkdir /media/target/boot/";
 					string mkbootefidir = "mkdir /media/target/boot/efi";
-    					string execfat = "mkfs.vfat -F 32 " + disk=disk+"1";
-					string exec2 = "mount " + disk=disk+"1"; + " /media/target/boot";
-					string exec3 = "mkfs.ext4 " + disk=disk+"2";;
-					string exec4 = "mount " + disk=disk+"2"; + " /media/target";
+    					string execfat = "mkfs.vfat -F 32 " + disk+"1";
+					string exec2 = "mount " + disk+"1"; + " /media/target/boot";
+					string exec3 = "mkfs.ext4 " + disk+"2";
+					string exec4 = "mount " + disk+"2" + " /media/target";
     					cout << "Making partitions" << endl;
 					system(runMkdirTargetDir.c_str());
 					//system(exec0.c_str());
@@ -152,12 +152,12 @@ void Install()
 				// Si no es asi inicia las ordenes para el modo Legacy (BIOS)
 				} else {
 					cout << "Formating partitions" << endl;
-					string exec2 = "mkfs.ext4 " + disk=disk+"1";
+					string exec2 = "mkfs.ext4 " + disk+"1";
 					system(exec2.c_str());
-					cout << disk = disk + " it's created sucessfully!" << endl;
+					cout << "The first partition of" + disk + " it's created sucessfully!" << endl;
 					system("mkdir /media/target");
 					cout << "Mounting partitions...." << endl;
-					string exec3 = "mount -t ext4 " + disk=disk+"1" + " /media/target";
+					string exec3 = "mount -t ext4 " + disk+"1" + " /media/target";
 					system(exec3.c_str());
 				if (usingSwap==true){
 					cout << "Please specify the swap partition ex: /dev/sda3" << endl;
