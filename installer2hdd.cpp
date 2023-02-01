@@ -62,11 +62,11 @@ void makeEFI()
 {
 	cout << "Making partitions" << endl;
 	string exec0 = "mkdir /media/target/boot/ || mkdir /media/target/boot/efi"
-	string exec = "mkfs -t vfat -F 32 " + disk +"1";
+	string execfat = "mkfs -t vfat -F 32 " + disk +"1";
 	string exec2 = "mount -t vfat " + disk+"1" + " /media/target/boot/efi";
 	string exec3 = "mkfs -t ext4 " + disk +"2";
 	string exec4 = "mount -t ext4" + disk+"2" + " /media/target/";
-	system(exec.c_str());
+	system(execfat.c_str());
 	system(exec0.c_str());
 	system(exec2.c_str());
 	system(exec3.c_str());
