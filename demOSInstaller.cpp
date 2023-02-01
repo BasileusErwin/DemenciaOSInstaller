@@ -47,11 +47,12 @@ void InstallProcess()
             	cout << "Installing bootloader (systemd-boot)" << endl;
         	string execeficmd = "bootctl install --esp-path=/media/target/boot";
         	system(execeficmd.c_str());
-		system("chroot /media/target");
+		
 	}
 	// Instala el paquete arch-install-scripts que contiene el genfstab para poder generar el fstab (/etc/fstab)
 	string exec13 = "apt install arch-install-scripts -y";
-    	cout << "Installing genfstab and generating fstab for the target disk" << endl;
+	system("chroot /media/target");
+	cout << "Installing genfstab and generating fstab for the target disk" << endl;
 	// Ejecutar las ordenes
 	system("genfstab -U /media/target/ >> /media/target/etc/fstab");
 	cout << "FSTAB Generated sucessfully if not apears nothing!" << endl;
