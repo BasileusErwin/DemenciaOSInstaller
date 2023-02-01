@@ -50,8 +50,6 @@ void Install()
                 system(exec6.c_str());
                 system(exec10.c_str());
                 system(exec12.c_str());
-                system(exec15.c_str());
-                system(exec20.c_str());
                 system("chroot /media/target");
                 cout << "Installation complete!" << endl;
                 cout << "The computer restarts now!";
