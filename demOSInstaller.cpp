@@ -42,7 +42,7 @@ void InstallProcess()
     	} else {
         	cout << "Installing bootloader (grub)" << endl;
 		// Lo mismo de arriba soloo que en --boot-directory (se usa para especificar la ruta de donde detectara el GRUB (grub.cfg)
-        	string execeficmd = "chroot /media/target grub-install --target=x86_64-efi --root-directory=/media/target/ --boot-directory=/media/target/boot/efi/ || update-grub" + disk;
+        	string execeficmd = "chroot /media/target grub-install --target=x86_64-efi --root-directory=/media/target/ --boot-directory=/media/target/boot " + disk;
         	system(execeficmd.c_str());
         	cout << "Installation complete!" << endl;
 	}
