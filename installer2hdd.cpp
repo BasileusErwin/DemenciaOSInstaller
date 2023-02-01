@@ -45,7 +45,7 @@ void Install()
                 string exec6 = "mount --bind /proc/ /media/target/proc/";
                 string exec10 = "mount --bind /sys/ /media/target/sys/";
                 string exec12 = "mount --bind /dev/ /media/target/dev/";
-                cout << "Write apt install arch-install-scripts -y in chroot and run genfstab -U /etc/fstab" << endl;
+                cout << "Write apt install arch-install-scripts -y in other terminal and run genfstab -U /media/target/ >> /media/target/etc/fstab" << endl;
                 cout << "Write update-grub in chroot for make grub config!" << endl;
                 system(exec6.c_str());
                 system(exec10.c_str());
