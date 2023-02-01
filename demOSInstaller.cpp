@@ -47,7 +47,6 @@ void InstallProcess()
             	cout << "Installing bootloader (grub)" << endl;
         	//string execeficmd = "bootctl install --esp-path=/media/target/boot";
 		string runchroot = "chroot /media/target mount " + disk+"1" + "/boot";
-		
 		string execeficmd = "grub-install --target=x86_64-efi --efi-directory=/boot";
 		system(runchroot.c_str());
         	system(execeficmd.c_str());
@@ -90,11 +89,10 @@ void Install()
     }
     else {
             try {
-		// Iniciar GPARTED
-                cout << "Enter to gparted " + disk << endl;
-                string installgparted = "apt install gparted -y";
-                system(installgparted.c_str());
-		system("gparted");
+		// Iniciar FDISK
+                cout << "Enter to fdisk " + disk << endl;
+                string fdiskrun = "fdisk " + disk;
+                system(fdiskrun.c_str());
                 cout << "OK" << endl;
 		cout << "You do want use SWAP? (yes/no)" << endl;
 		cin >> swapoption;
@@ -121,13 +119,13 @@ void Install()
 				{
 					// Ejecutar metodos para el EFI
 					string runMkdirTargetDir = "mkdir /media/target/";
-    				string exec0 = "mkdir /media/target/boot/";
+    					string exec0 = "mkdir /media/target/boot/";
 					string mkbootefidir = "mkdir /media/target/boot/efi";
-    				string execfat = "mkfs.vfat -F 32 " + disk+"1";
+    					string execfat = "mkfs.vfat -F 32 " + disk+"1";
 					string exec2 = "mount " + disk+"1" + " /media/target/boot";
 					string exec3 = "mkfs.ext4 " + disk +"2";
 					string exec4 = "mount " + disk+"2" + " /media/target";
-    				cout << "Making partitions" << endl;
+    					cout << "Making partitions" << endl;
 					system(runMkdirTargetDir.c_str());
 					//system(exec0.c_str());
 					//system(exec2.c_str());
