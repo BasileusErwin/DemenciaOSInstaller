@@ -16,9 +16,11 @@ bool isEFI;
 
 void makeEFI()
 {
-	cout << "Making partition and mounting EFI partition" << endl;
-	string exec = "mkfs.vfat -F 32 " + disk +"1";
+	cout << "Making partitions" << endl;
+	string exec = "mkfs -t vfat -F 32 " + disk +"1";
 	string exec2 = "mount -t vfat " + disk+"1" + " /media/target/boot/efi";
+	string exec3 = "mkfs -t ext4 " + disk +"2";
+	string exec4 = "mount -t vfat " + disk+"1" + " /media/target/boot/efi";
 	cout << "Sucess!" << endl;
 
 }
