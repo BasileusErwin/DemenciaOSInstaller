@@ -38,7 +38,7 @@ void InstallProcess()
         system("chroot /media/target update-grub");
     } else {
         cout << "Installing bootloader (grub)" << endl;
-        string execeficmd = "chroot /media/target grub-install --target=x86_64-efi --root-directory=/media/target/ --boot-directory=/media/target/boot/efi/" + disk;
+        string execeficmd = "chroot /media/target grub-install --target=x86_64-efi --root-directory=/media/target/ --boot-directory=/media/target/boot/efi/ || update-grub" + disk;
         system(execeficmd.c_str());
         cout << "Installation complete!" << endl;
     }
@@ -52,8 +52,12 @@ void makeEFI()
 	string exec = "mkfs -t vfat -F 32 " + disk +"1";
 	string exec2 = "mount -t vfat " + disk+"1" + " /media/target/boot/efi";
 	string exec3 = "mkfs -t ext4 " + disk +"2";
-	string exec4 = "mount -t vfat " + disk+"1" + " /media/target/boot/efi";
-	cout << "Sucess!" << endl;
+	string exec4 = "mount -t ext4" + disk+"2" + " /media/target/";
+	system(exec.c_str());
+	system(exec2.c_str());
+	system(exec3.c_str());
+	system(exec4.c_str());
+	cout << "Success!" << endl;
 
 }
 
