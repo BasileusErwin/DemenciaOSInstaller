@@ -67,6 +67,7 @@ void makeEFI()
 	string exec3 = "mkfs -t ext4 " + disk +"2";
 	string exec4 = "mount -t ext4" + disk+"2" + " /media/target/";
 	system(exec.c_str());
+	system(exec0.c_str());
 	system(exec2.c_str());
 	system(exec3.c_str());
 	system(exec4.c_str());
