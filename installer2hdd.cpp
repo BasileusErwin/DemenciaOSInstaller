@@ -5,63 +5,72 @@
 
 using namespace std;
 
-int option;
-string swapOption;
-string disk;
-string efiPart;
-string language;
-string swapPart;
-string efiOption;
-bool usingSwap;
+// Variables
+int option;        // Variable que guara la opcion elegida del inicio
+string swapOption; // Opcion donde se guarda si quieres la swap o no
+string disk;       // Variable donde se almacena el disco de destino
+string efiPart;    // Variable donde se almacena la partición EFI
+string language;   // Variable donde se almacena la partición SWAP
+string swapPart;   // Variable para especificar si es una instalación EFI o no.
+string efiOption;  // Comprobar si la instalación es EFI y no.
+bool usingSwap;    // Variable para especificar si se usa la SWAP
 bool isEFI;
 
+// Metodo de proceso de instalación
 void InstallProcess() {
   cout << "Installing...." << endl;
+
+  // Descomprimir el archivo squashfs RESPONSABLE de descomprimir el sistema en
+  // el destino
   string installSystem =
       "unsquashfs -f -d /media/target/ /media/cdrom/casper/filesystem.squashfs";
-  system(installSystem.c_str());
 
-  cout << "Installing bootloader (grub)" << endl;
-  string grubInstall =
-      "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
-  system(grubInstall.c_str());
+  system(installSystem.c_str());
 
   string mountProcInRoot = "mount --bind /proc/ /media/target/proc/";
   string mountSysInRoot = "mount --bind /sys/ /media/target/sys/";
   string mountDevInRoot = "mount --bind /dev/ /media/target/dev/";
-  string generateFstab = "apt install arch-install-scripts -y || genfstab -U "
-                         "/media/target/ >> /media/target/etc/fstab";
 
+  // Instala el paquete arch-install-scripts que contiene el genfstab para poder
+  // generar el fstab (/etc/fstab)
   cout << "Installing genfstab and generating fstab for the target disk"
        << endl;
   system(mountProcInRoot.c_str());
   system(mountSysInRoot.c_str());
   system(mountDevInRoot.c_str());
-  system(generateFstab.c_str());
 
   if (!isEFI) {
+    // Instalar gestor de arrange GRUB en modo legacy
     cout << "Installing bootloader (grub)" << endl;
+
+    // Comando grub-install --target=i386-pc (modo legacy) --root=directry=
+    // (ruta de punto de montaje)
+    string grubInstall =
+        "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
+    system(grubInstall.c_str());
+
+    // Cambiar a la instalación de destino y ejecutar update-grub para generar
+    // la configuración del GRUB
 
     system("chroot /media/target update-grub");
   } else {
     cout << "Installing bootloader (grub)" << endl;
 
-    string execeficmd =
+    // Lo mismo de arriba soloo que en --boot-directory (se usa para especificar
+    // la ruta de donde detectara el GRUB (grub.cfg)
+    string grubInstall =
         "chroot /media/target grub-install --target=x86_64-efi "
         "--root-directory=/media/target/ "
         "--boot-directory=/media/target/boot/efi/ || update-grub" +
         disk;
-    system(execeficmd.c_str());
+    system(grubInstall.c_str());
 
     cout << "Installation complete!" << endl;
   }
-}
 
-void makeBoot() {
-  cout << "Installing bootloader (grub)" << endl;
-  string grubInstall =
-      "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
-  system(grubInstall.c_str());
+  string generateFstab = "apt install arch-install-scripts -y || genfstab -U "
+                         "/media/target/ >> /media/target/etc/fstab";
+  system(generateFstab.c_str());
 }
 
 // Metodo para crear la particion EFI y montar sus respectivas rutas.
@@ -83,9 +92,9 @@ void makeEFI() {
 
   cout << "Success!" << endl;
 }
+
 // Metodo para crear la particion SWAP.
-void MakeSwap()
-{
+void MakeSwap() {
   string makeSwap = "mkswap " + swapPart;
   string swapon = "swapon " + swapPart;
 
@@ -109,23 +118,28 @@ void Install() {
     try {
       cout << "Enter to cfdisk " + disk << endl;
 
+      // Iniciar CFDISK
       string cfdisk = "cfdisk " + disk;
       system(cfdisk.c_str());
 
       cout << "OK" << endl;
 
-      cout << "You do want use SWAP? (yes/no)" << endl;
-      cin >> swapOption;
-      usingSwap = swapOption == "yes";
-
+      // Comprobar si es EFI o no
       cout << "Is EFI? (yes/no)" << endl;
       cin >> efiOption;
       isEFI = efiOption == "yes";
 
+      // Comprobar si usa la swap o no
+      cout << "You do want use SWAP? (yes/no)" << endl;
+      cin >> swapOption;
+      usingSwap = swapOption == "yes";
+
+      // Comprobar si es EFI o no
       if (isEFI) {
+        // Ejecutar metodos para el EFI
         makeEFI();
-        InstallProcess();
       } else {
+        // Si no es asi inicia las ordenes para el modo Legacy (BIOS)
         cout << "Formating partitions" << endl;
 
         string makeFileSystemRoot = "mkfs.ext4 " + disk + "1";
@@ -147,9 +161,8 @@ void Install() {
 
           cout << "Swap created sucessfully" << endl;
         }
-
-        makeBoot();
       }
+      InstallProcess();
     } catch (string ex) {
       cout << ex << endl;
       exit(0);
