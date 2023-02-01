@@ -42,11 +42,17 @@ void Install()
                 cout << "Installing bootloader (grub)" << endl;
                 string exec5 = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
                 system(exec5.c_str());
-                string exec6 = "grub-mkconfig -o /media/target/boot/grub/grub.cfg";
+                string exec6 = "mount --bind /proc/ /media/target/proc/";
+                string exec10 = "mount --bind /sys/ /media/target/sys/";
+                string exec12 = "mount --bind /dev/ /media/target/dev/";
+                cout << "Write update-grub in chroot for make grub config!" << endl;
                 system(exec6.c_str());
+                system(exec10.c_str());
+                system(exec12.c_str());
+                system("chroot /media/target"(;
                 cout << "Installation complete!" << endl;
-                //cout << "The computer restarts now!";
-                //system("systemctl reboot");
+                cout << "The computer restarts now!";
+                system("systemctl reboot");
             }
             catch (string ex)
             {
