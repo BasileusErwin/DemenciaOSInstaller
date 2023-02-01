@@ -144,10 +144,6 @@ void Install()
 					MakeSwap();
 					cout << "Swap created sucessfully" << endl;
 				}
-				if(isEFI)
-				{
-					makeEFI();
-				}
 				}
             }
             catch (string ex)
