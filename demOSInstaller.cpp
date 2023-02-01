@@ -37,7 +37,7 @@ void InstallProcess()
     		string exec5 = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
     		system(exec5.c_str());
 		// Cambiar a la instalación de destino y ejecutar update-grub para generar la configuración del GRUB
-        	cout << "Use genfstab -U / >> /etc/fstab and finally use update-grub" << endl;
+        	cout << "Use genfstab -U / >> /etc/fstab and finally use update-grub\n" << endl;
 		system("chroot /media/target");
 		cout << "Installation complete!" << endl;
 
@@ -45,10 +45,12 @@ void InstallProcess()
 		system(exec6.c_str());
 		system(exec10.c_str());
 		system(exec12.c_str());
-            	cout << "FIRST COMMAND: You are right now in the new installation of DemenciaOS (chroot). put mkdir -v /mnt/boottemp and cp -rv /boot /mnt/boottemp" << endl;
-		cout << "SECOND COMMAND: put mount /dev/sdx1 /boot or /dev/nvme0n1p1 /boot (NVMe) and grub-install --target=x86_64-efi --efi-directory=/boot"; 
-		cout << "THIRD COMMAND: put cp -rv /mnt/boottemp/boot/* /boot/ and finally. put update-grub and finally use command to exit";
         	//string execeficmd = "bootctl install --esp-path=/media/target/boot";
+		system("apt install arch-install-scripts -y ");
+		system("clear");
+		cout << "FIRST COMMAND: You are right now in the new installation of DemenciaOS (chroot).\n put mkdir -v /mnt/boottemp and cp -rv /boot /mnt/boottemp\n" << endl;
+		cout << "SECOND COMMAND: put mount /dev/sdx1 /boot or /dev/nvme0n1p1 /boot (NVMe) and grub-install --target=x86_64-efi --efi-directory=/boot\n, open an other terminal and login with root with sudo -i or sudo su and write genfstab -U /media/target/ >> /media/target/etc/fstab\n" << endl; 
+		cout << "THIRD COMMAND: put cp -rv /mnt/boottemp/boot/* /boot/ and finally. put update-grub and finally use command to exit. \n " << endl;
 		system("chroot /media/target");
         	cout << "Installation complete you can reboot with sudo reboot or systemctl reboot" << endl;
 		
