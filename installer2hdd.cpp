@@ -57,7 +57,7 @@ void Install()
 				cin >> swapoption;
                 cout << "Is EFI? (yes/no)" << endl;
                 cin >> efioption;
-                if (efioption==true)
+                if (efioption=="yes")
                 {
                     isEFI = true;
                 }
