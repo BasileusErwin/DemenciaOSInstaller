@@ -11,4 +11,4 @@ all: $(TARGET)
 	$(CC) $(CFLAGS) $(TARGET) -o demOSInstaller
  
 no_install: $(TARGET)
-	$(CC) -DNOINSTALL $(CFLAGS) $(TARGET) -o demOSInstall
+	$(CC) -DNOINSTALL $(CFLAGS) $(TARGET) -o demOSInstaller

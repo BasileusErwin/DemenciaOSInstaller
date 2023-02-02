@@ -15,6 +15,7 @@ string disk;       // Variable donde se almacena el disco de destino
 string efiPart;    // Variable donde se almacena la partición EFI
 string rootPart;
 string swapOption; // Opcion donde se guarda si quieres la swap o no
+
 string language;   // Variable donde se almacena la partición SWAP
 string swapPart;   // Variable para especificar si es una instalación EFI o no.
 string efiOption;  // Comprobar si la instalación es EFI y no.
@@ -29,7 +30,9 @@ bool startWith(std::string primera_str, std::string str_objetivo) {
   return primera_str.find(str_objetivo) == 0;
 }
 
-// system(): Esta función nos permite ejecutar programas de linea de comandos.
+bool IsRoot() { return getuid() == 0; }
+
+bool IsEFISystem() { return access("/sys/firmware/efi/efivars", F_OK) == 0; }
 
 // Metodo de proceso de instalación
 void InstallProcess() {
@@ -54,7 +57,6 @@ void InstallProcess() {
     // (ruta de punto de montaje)
     string grubInstall =
         "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
-
     system(grubInstall.c_str());
 
     // Cambiar a la instalación de destino y ejecutar update-grub para generar
@@ -254,7 +256,6 @@ int main() {
         endwin();
         exit(0);
       }
-
       if (options[selected] == "Exit") {
         endwin();
         exit(0);
