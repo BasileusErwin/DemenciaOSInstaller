@@ -9,8 +9,8 @@ fdiskrun = "gparted " + disk
 option = "" ## Variable que guara la opcion elegida del inicio
 wapoption = "" ## Opcion donde se guarda si quieres la swap o no
 
-efipart ="" ## Variable donde se almacena la partición EFI
-swappart="" ## Variable donde se almacena la partición SWAP
+ ## Variable donde se almacena la partición EFI
+ ## Variable donde se almacena la partición SWAP
 efioption="" ## Variable para especificar si es una instalación EFI o no.
 usingSwap="" ## Variable para especificar si se usa la SWAP
 isEFI="" ## Comprobar si la instalación es EFI y no.
@@ -20,16 +20,19 @@ mount_dev = "mount --bind /dev/ /media/target/dev/"
 squashfs_extract= "unsquashfs -f -d /media/target/ /media/cdrom/casper/filesystem.squashfs"
 
 legacy_grub_cmd = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk
+root_partition=""
+swap_partition=""
+efi_partition=""
 
-mount_legacy_root = "mount " + disk+"1" + " /media/target" 
+mount_legacy_root = "mount -t ext4 " + str(root_partition) + " /media/target"
 runMkdirTargetDir = "mkdir /media/target/"
 bootdir = "mkdir /media/target/boot/"
-execefi_format = "mkfs.vfat -F 32 " + disk+"1"
-mount_boot_dir = "mount " + disk+"1" + " /media/target/boot"
-mkroot_part = "mkfs.ext4 " + disk+"2"
-mount_root = "mount " + disk+"2" + " /media/target"
+execefi_format = "mkfs -t vfat -F 32 " + str(efi_partition)"
+mount_boot_dir = "mount " + str(efi_partition)" + " /media/target/boot"
+mkroot_part = "mkfs -t ext4 " + str(root_partition)
+mount_root = "mount -t ext4 " + str(root_partition) + "/media/target"
 
-legacy_root_format = "mkfs.ext4 " + disk+"1"
+legacy_root_format = "mkfs -t ext4 " + str(root_partition)
 
 ## system(): Esta función nos permite ejecutar programas de linea de comandos.
 
@@ -62,15 +65,19 @@ elif(isEFI==True):
 ## Metodo para crear la particion SWAP.
 
 def MakeSwap():
-	cmd = "mkswap " + swappart
-	cmd2 = "swapon " + swappart
+	cmd = "mkswap " + str(swap_partition)
+	cmd2 = "swapon " + str(swap_partition)
 	os.system(str(cmd))
 	os.system(str(cmd2))
 
 ## ## Metodo al iniciar el menu de 1.- Install
 def Install():
-		disk = input()
-
+		disk = input("Write the device ex: /dev/sda: ")
+		if(disk.startswith("/dev/nvme0n1")):
+			disk = str(disk) + "p"
+			print ("NVMe detected!")
+		else:
+			disk = str(disk)
 		print("Enter to gparted " + disk)
 		os.system(str(runapt))
 		os.system(str(fdiskrun))
@@ -88,21 +95,24 @@ def Install():
 			usingSwap=False
 		## Comprobar si es EFI o no
 		if(isEFI == True):
+			root_partition=input("Root partition: ")
+			efi_partition=input("EFI Partition")
 			print("Making partitions")
-			os.system(str(runMkdirTargetDir))
-			os.system(str(mkroot_part))
-			os.system(str(mount_root))
+			os.system(runMkdirTargetDir)
+			os.system(mkroot_part)
+			os.system(mount_root)
 			print("Success")
 			InstallProcess()
 		elif(isEFI == False):
+			root_partition=input("Root partition: ")
 			print("Making partitions")
-			os.system(str(runMkdirTargetDir))
-			os.system(str(legacy_root_format))
-			os.system(str(mount_root))
+			os.system(runMkdirTargetDir)
+			os.system(legacy_root_format)
+			os.system(mount_legacy_root)
 			print("Success")
 			InstallProcess()
 		if (usingSwap==True):
-			swappart=input("Write your swap partition ex: /dev/sda3 ")
+			swap_partition=input("Write your swap partition ex: /dev/sda3 ")
 			print("Creating swap!")
 			MakeSwap()
 			print("Swap created successfully!")
@@ -115,12 +125,10 @@ def main():
     "2.- Exit\n")
 	option = input("Select the option: ")
 
-	if (option==2):
+	if (option=="2"):
 		sys.exit()
-
-	if (option>=3):
-		main()
-
-	if (option==1):
+	if (option=="1"):
 		Install()
+	else:
+		main()
 main()
