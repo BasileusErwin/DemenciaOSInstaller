@@ -72,7 +72,7 @@ def MakeSwap():
 ## ## Metodo al iniciar el menu de 1.- Install
 def Install():
 	os.system("clear")
-    	os.system("lsblk")    
+	os.system("lsblk")    
 	disk = input("Write you disk here: ")
 
 if(disk==""):
