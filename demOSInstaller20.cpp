@@ -45,6 +45,7 @@ void InstallProcess()
 		system(exec6.c_str());
                 system(exec10.c_str());
                 system(exec12.c_str());
+		system("apt install arch-install-scripts -y ");
 		// Instalar gestor de arrange GRUB en modo legacy
 		cout << "Installing bootloader (grub)" << endl;
 		// Comando grub-install --target=i386-pc (modo legacy) --root=directry= (ruta de punto de montaje)
