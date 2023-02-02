@@ -28,7 +28,7 @@ mount_legacy_root = "mount -t ext4 " + str(root_partition) + " /media/target"
 runMkdirTargetDir = "mkdir /media/target/"
 bootdir = "mkdir /media/target/boot/"
 execefi_format = "mkfs -t vfat -F 32 " + str(efi_partition)
-mount_boot_dir = "mount " + str(efi_partition)" + " /media/target/boot"
+mount_boot_dir = "mount " + str(efi_partition) + " /media/target/boot"
 mkroot_part = "mkfs -t ext4 " + str(root_partition)
 mount_root = "mount -t ext4 " + str(root_partition) + "/media/target"
 
