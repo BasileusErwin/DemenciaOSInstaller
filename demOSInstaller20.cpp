@@ -168,7 +168,7 @@ void Install()
 					cout << rootpart + " it's created sucessfully!" << endl;
 					system("mkdir /media/target");
 					cout << "Mounting partitions...." << endl;
-					string exec3 = "mount.ext4 " + rootpart + " /media/target";
+					string exec3 = "mount " + rootpart + " /media/target";
 					system(exec3.c_str());
 				if (usingSwap==true){
 					cout << "Please specify the swap partition ex: /dev/sda3" << endl;
@@ -176,6 +176,7 @@ void Install()
 					cout << "Creating swap" << endl;
 					MakeSwap();
 					cout << "Swap created sucessfully" << endl;
+					InstallProcess();
 				}
 				}
             }
