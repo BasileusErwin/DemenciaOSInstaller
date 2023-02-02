@@ -51,7 +51,7 @@ void InstallProcess()
     		string exec5 = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
     		system(exec5.c_str());
 		// Cambiar a la instalación de destino y ejecutar update-grub para generar la configuración del GRUB
-        	cout << "Use genfstab -U /media/target/ >> /media/target/etc/fstab in the other termianl and finally in the same window of the installer write update-grub\n" << endl;
+        	cout << "Use grub-install --target=i386-pc --root-directory=/media/target/  genfstab -U /media/target/ >> /media/target/etc/fstab in the other termianl and finally in the same window of the installer write update-grub\n" << endl;
 		system("chroot /media/target");
 		cout << "Installation complete!" << endl;
 
