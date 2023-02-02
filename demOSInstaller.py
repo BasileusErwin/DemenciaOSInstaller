@@ -21,7 +21,7 @@ squashfs_extract= "unsquashfs -f -d /media/target/ /media/cdrom/casper/filesyste
 
 legacy_grub_cmd = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk
 
-
+mount_legacy_root = "mount " + disk+"1" + " /media/target" 
 runMkdirTargetDir = "mkdir /media/target/"
 bootdir = "mkdir /media/target/boot/"
 execefi_format = "mkfs.vfat -F 32 " + disk+"1"
@@ -45,9 +45,9 @@ def InstallProcess():
 if(isEFI==False):
 		print ("Installing bootloader (grub)")
 		# Comando grub-install --target=i386-pc (modo legacy) --root=directry= (ruta de punto de montaje)
-		os.system(str(legacy_grub_cmd))
+		#os.system(str(legacy_grub_cmd))
 		## Cambiar a la instalación de destino y ejecutar update-grub para generar la configuración del GRUB
-		print("Use genfstab -U / >> /etc/fstab and finally use update-grub\n")
+		print("Use genfstab -U / >> /etc/fstab\n Use grub-install --target=i386-pc --root-directory=/ --boot-directory=/boot\n and finally use update-grub\n")
 		os.chroot("/media/target")
 		print("Installation complete you can reboot with sudo reboot or systemctl reboot\n")
 elif(isEFI==True):
@@ -104,7 +104,13 @@ else:
 			os.system(str(mount_root))
 			print("Success")
 			InstallProcess()
-
+		elif(isEFI == False):
+			print("Making partitions")
+			os.system(str(runMkdirTargetDir))
+			os.system(str(legacy_root_format))
+			os.system(str(mount_root))
+			print("Success")
+			InstallProcess()
 		
 		if (usingSwap==True):
 			swappart=input("Write your swap partition ex: /dev/sda3 ")
