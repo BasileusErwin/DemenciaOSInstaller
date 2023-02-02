@@ -8,7 +8,7 @@ You can use the C++ version or Python version for understand better the code. An
 
 C++
 
-``bash
+```bash
   make
   sudo ./demOSInstaller
-``
+```
