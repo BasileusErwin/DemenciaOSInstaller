@@ -39,9 +39,7 @@ legacy_root_format = "mkfs.ext4 " + disk+"1"
 def InstallProcess():
     print("Extracting filesystem.squashfs....")
 	## Descomprimir el archivo squashfs RESPONSABLE de descomprimir el sistema en el destino
-	
     os.system(str(squashfs_extract))
-	
 if(isEFI==False):
 		print ("Installing bootloader (grub)")
 		# Comando grub-install --target=i386-pc (modo legacy) --root=directry= (ruta de punto de montaje)
@@ -71,25 +69,18 @@ def MakeSwap():
 
 ## ## Metodo al iniciar el menu de 1.- Install
 def Install():
-	os.system("clear")
-	os.system("lsblk")    
-	disk = input("Write you disk here: ")
+		disk = input()
 
-if(disk==""):
-		Install()
-else:
 		print("Enter to gparted " + disk)
 		os.system(str(runapt))
 		os.system(str(fdiskrun))
 		print("OK\n")
 		swapoption=input("Do you want swap? (yes/no)\n")
 		efioption=input("Is EFI? (yes/no)\n")
-			
 		if (efioption=="yes"):
 			isEFI = True
 		else:
 			isEFI = False
-			
 	## Comprobar si usa la swap o no
 		if (swapoption=="yes"):
 			usingSwap=True
@@ -110,7 +101,6 @@ else:
 			os.system(str(mount_root))
 			print("Success")
 			InstallProcess()
-		
 		if (usingSwap==True):
 			swappart=input("Write your swap partition ex: /dev/sda3 ")
 			print("Creating swap!")
@@ -119,6 +109,7 @@ else:
 
 ## Metodo inicial
 def main():
+	os.system("lsblk")
 	print("Welcome to the Demencia OS Installer. What do you want?\n"
     "1.- Install\n"
     "2.- Exit\n")
