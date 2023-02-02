@@ -224,7 +224,7 @@ int main() {
     if (i == selected) {
       wattron(window, A_REVERSE);
     }
-
+    
     mvwprintw(window, 4 + i, 2, "%s", options[i].c_str());
     wattroff(window, A_REVERSE);
   }
@@ -234,7 +234,7 @@ int main() {
     case KEY_UP:
       if (selected <= 0)
         break;
-
+        
       selected--;
       break;
     case KEY_DOWN:

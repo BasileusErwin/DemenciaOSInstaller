@@ -1,9 +1,5 @@
 # DemenciaOSInstaller
 Installer for Demencia OS
-
-Why other the same program in the other languages?
-You can use the C++ version or Python version for understand better the code. And i created the Python version for a challenge myself 
-
 # How to use?
 
 C++
@@ -12,3 +8,5 @@ C++
   make
   sudo ./demOSInstaller
 ```
+
+Thanks to BasileusErwin for improve my code and better understing the code!
