@@ -8,4 +8,7 @@ You can use the C++ version or Python version for understand better the code. An
 
 C++
 
-``gcc demOSInstaller20.cpp -o demOSInstaller | sudo ./demOSInstaller``
+``bash
+  make
+  sudo ./demOSInstaller
+``
