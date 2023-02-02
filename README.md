@@ -1,7 +1,8 @@
 # DemenciaOSInstaller
 Installer for Demencia OS
 
-You can use the C++ version or Python version for understand better the code
+Why other the same program in the other languages?
+You can use the C++ version or Python version for understand better the code. And i created the Python version for a challenge myself 
 
 # How to use?
 
