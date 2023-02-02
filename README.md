@@ -4,10 +4,9 @@ Installer for Demencia OS
 
 C++
 
-``make``
-`` sudo ./demOSInstaller ``
-
+```bash
+  make
+  sudo ./demOSInstaller
+```
 
 Thanks to BasileusErwin for improve my code and better understing the code!
-
-
