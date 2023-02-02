@@ -42,13 +42,16 @@ void InstallProcess()
 
 	if(isEFI==false)
 	{
+		system(exec6.c_str());
+                system(exec10.c_str());
+                system(exec12.c_str());
 		// Instalar gestor de arrange GRUB en modo legacy
 		cout << "Installing bootloader (grub)" << endl;
 		// Comando grub-install --target=i386-pc (modo legacy) --root=directry= (ruta de punto de montaje)
     		string exec5 = "grub-install --target=i386-pc --root-directory=/media/target/ " + disk;
     		system(exec5.c_str());
 		// Cambiar a la instalación de destino y ejecutar update-grub para generar la configuración del GRUB
-        	cout << "Use genfstab -U / >> /etc/fstab and finally use update-grub\n" << endl;
+        	cout << "Use genfstab -U /media/target/ >> /media/target/etc/fstab in the other termianl and finally in the same window of the installer write update-grub\n" << endl;
 		system("chroot /media/target");
 		cout << "Installation complete!" << endl;
 
