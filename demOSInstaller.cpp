@@ -40,9 +40,10 @@ void InstallProcess() {
 
   // Descomprimir el archivo squashfs RESPONSABLE de descomprimir el sistema en
   // el destino
+  // "/media/cdrom/casper/filesystem.squashfs" ruta original
   system("unsquashfs -f -d /media/target/ "
-         "/media/cdrom/casper/filesystem.squashfs");
-
+         "/run/live/medium/live/filesystem.squashfs");
+  
   system("mount --bind /proc/ /media/target/proc/");
   system("mount --bind /sys/ /media/target/sys/");
   system("mount --bind /dev/ /media/target/dev/");
