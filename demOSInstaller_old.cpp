@@ -33,6 +33,7 @@ void InstallProcess()
 {
     cout << "Installing...." << endl;
 	// Descomprimir el archivo squashfs RESPONSABLE de descomprimir el sistema en el destino
+	// /usr/lib/live/mount/medium/live/filesystem.squashfs" FOR NEW DEBIAN BASE
 	string exec4 = "unsquashfs -f -d /media/target/ /media/cdrom/casper/filesystem.squashfs";
     	system(exec4.c_str());
 	//
