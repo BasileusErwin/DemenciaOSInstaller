@@ -30,10 +30,6 @@ bool startWith(std::string primera_str, std::string str_objetivo) {
   return primera_str.find(str_objetivo) == 0;
 }
 
-bool IsRoot() { return getuid() == 0; }
-
-bool IsEFISystem() { return access("/sys/firmware/efi/efivars", F_OK) == 0; }
-
 // Metodo de proceso de instalación
 void InstallProcess() {
   cout << "Installing...." << endl;
