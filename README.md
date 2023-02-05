@@ -1,15 +1,29 @@
-# DemenciaOSInstaller
-Installer for Demencia OS
+# Demencia OS Installer
+
+
+Demencia OS Installer for Debian base
+
+Why this other installer?
+
+To avoid some kind of incompatibility with the other script based on Ubuntu.
+
 # How to use?
 
-C++
+``make`` Thanks to Edgar and for the Makefile
 
-```bash
-  make
-  sudo ./demOSInstaller
-```
+Prerequisites 
+``sudo apt install libparted-dev libncurses-dev -y ``
 
-Thanks to BasileusErwin and Edgar for improve my code and better understing the code!
 
-This repository has been archive and this it's the sucessor version: 
-https://github.com/hhk02/DemenciaOSDebInstall
+`` sudo ./DemenciaOSInstaller ``
+
+Original idea:
+hhk02
+
+People who improves the code:
+
+https://github.com/EdgarsFeic96/DemenciaOSDebInstall
+https://github.com/BasileusErwin/DemenciaOSInstaller
+
+check the fork of Edgar  for better experience now with ncurses menu
+check the fork of BaisileusErwin too 
