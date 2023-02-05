@@ -9,10 +9,9 @@ To avoid some kind of incompatibility with the other script based on Ubuntu.
 
 # How to use?
 
-``make`` Thanks to Edgar and for the Makefile
+``g++ DemenciaOSInstaller.cpp -o DemenciaOSInstaller`` Thanks to Edgar and for the Makefile
 
-Prerequisites 
-``sudo apt install libparted-dev libncurses-dev -y ``
+
 
 
 `` sudo ./DemenciaOSInstaller ``
