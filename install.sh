@@ -41,11 +41,11 @@ show() {
   echo -e "${BLUE} $1"
 }
 
-test_conexion(){
+test_conexion() {
   echo -e "GET http://google.com HTTP/1.0\n\n" | nc archlinux.org 80 > /dev/null 2>&1
-  
-  if [[ $? == 1 ]] ; then
-    panic "There is no Internet conection . . . Can't continue" 
+
+  if [[ $? == 1 ]]; then
+    panic "There is no Internet conection . . . Can't continue"
   fi
 
   message "Internet connection"
@@ -59,19 +59,20 @@ command_success() {
     read -rp "-> Yes/No: " OPTION
 
     if [[ ${OPTION,,} == "yes" ]] || [[ $OPTION == "" ]]; then
-        warn "Continuing . . . $3"
-        return 0
+      warn "Continuing . . . $3"
+      return 0
     fi
+
     panic "$2"
   fi
 }
 
 is_mounted() {
-  findmnt "$1" >/dev/null
+  findmnt "$1" > /dev/null
 }
 
 check_partition_exist() {
-  df | grep -q "$1" >/dev/null
+  lsblk -p | grep -q "$1" > /dev/null
 }
 
 change_keyboard_language() {
@@ -81,7 +82,8 @@ change_keyboard_language() {
 create_user() {
   while true; do
     read -rp "Username" USERNAME
-    if [[ "$USERNAME" != "" ]]; then break; else continue; fi done
+    if [[ "$USERNAME" != "" ]]; then break; else continue; fi
+  done
   useradd -m -g users -G audio,lp,optical,storage,video,power -s /bin/bash "$USERNAME"
   passwd "$USERNAME"
 
@@ -121,8 +123,13 @@ partition_process() {
 
   while true; do
     show "Write you disk here: "
-    read DISK
-    check_partition_exist $DISK && break || error "The selected partition does not exist"
+    read -r DISK
+
+    if [[ $(check_partition_exist "$DISK") ]]; then
+      break
+    fi
+
+    error "The selected partition does not exist"
   done
 
   show "Enter to fdisk $DISK"
@@ -135,8 +142,8 @@ partition_process() {
     PARTITION_EXISTS=$(check_partition_exist "$ROOT_PARTITION")
 
     if [[ ! $PARTITION_EXISTS ]]; then
-     error "The selected partition does not exist"
-     continue
+      error "The selected partition does not exist"
+      continue
     fi
   done
 
@@ -151,8 +158,8 @@ partition_process() {
       PARTITION_EXISTS=$(check_partition_exist "$EFI_PARTITION")
 
       if [[ ! $PARTITION_EXISTS ]]; then
-       error "The selected partition does not exist"
-       continue
+        error "The selected partition does not exist"
+        continue
       fi
 
       message "Partition Exists"
@@ -173,15 +180,15 @@ partition_process() {
       PARTITION_EXISTS=$(check_partition_exist "$SWAP_PARTITION")
 
       if [[ ! $PARTITION_EXISTS ]]; then
-       error "The selected partition does not exist"
-       continue
+        error "The selected partition does not exist"
+        continue
       fi
 
       message "Partition Exists"
       break
     fi
   done
-  
+
   make_root "$ROOT_PARTITION"
   message "ROOT created successfully"
 
@@ -206,7 +213,7 @@ install_kernel() {
 
   case "$CHOOSE_KERNEL" in
     "2")
-      cat > "$MOUNT_DIR/etc/apt/sources.list" <<EOF
+      cat > "$MOUNT_DIR/etc/apt/sources.list" << EOF
           deb http://deb.debian.org/debian/ bullseye main contrib non-free
           deb-src http://deb.debian.org/debian/ bullseye main contrib non-free
           deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free
@@ -217,9 +224,9 @@ EOF
       arch-chroot "$MOUNT_DIR" /bin/bash -c "apt update && apt install firmware-linux firmware-linux-nonfree linux-xanmod-x64v3 -y && update-grub"
 
       message "XanMod Kernel Installed!"
-    ;;
+      ;;
     *)
-      cat > "$MOUNT_DIR/etc/apt/sources.list" <<EOF
+      cat > "$MOUNT_DIR/etc/apt/sources.list" << EOF
         deb http://deb.debian.org/debian/ bullseye main contrib non-free
         deb-src http://deb.debian.org/debian/ bullseye main contrib non-free
         deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free
@@ -228,12 +235,12 @@ EOF
       arch-chroot "$MOUNT_DIR" /bin/bash -c "apt update && apt install linux-image-amd64 linux-headers-amd64 firmware-linux firmware-linux-nonfree -y && update-grub"
 
       message "Generic Kernel Installed!"
-    ;;
+      ;;
   esac
 }
 
 get_nala() {
-  arch-chroot "$MOUNT_DIR" /bin/bash -c <<EOF
+  arch-chroot "$MOUNT_DIR" /bin/bash -c << EOF
   curl -O https://gitlab.com/volian/volian-archive/uploads/b20bd8237a9b20f5a82f461ed0704ad4/volian-archive-keyring_0.1.0_all.deb &&
   curl -O https://gitlab.com/volian/volian-archive/uploads/d6b3a118de5384a0be2462905f7e4301/volian-archive-nala_0.1.0_all.deb &&
   apt install ./volian-archive*.deb  -y &&
@@ -248,8 +255,8 @@ install_system() {
   unsquashfs -f -d "$MOUNT_DIR" /run/live/medium/live/filesystem.squashfs
 
   mount --bind /proc/ "$MOUNT_DIR/proc/"
-  mount --bind /sys/  "$MOUNT_DIR/sys/"
-  mount --bind /dev/  "$MOUNT_DIR/dev/"
+  mount --bind /sys/ "$MOUNT_DIR/sys/"
+  mount --bind /dev/ "$MOUNT_DIR/dev/"
 
   if [[ "$SWAP_PARTITION" != "" ]]; then
     rm "$MOUNT_DIR/etc/initramfs-tools/conf.d/resume"
@@ -262,7 +269,7 @@ install_system() {
 
   get_nala
 
-  arch-chroot "$MOUNT_DIR" /bin/bash -c <<EOF
+  arch-chroot "$MOUNT_DIR" /bin/bash -c << EOF
   apt install grub-efi arch-install-scripts -y &&
   genfstab -U /media/target > /media/target/etc/fstab &&
   grub-install --target=x86_64-efi --efi-directory=$BOOT_DIR --bootloader-id=DemenciaOS &&
@@ -272,7 +279,7 @@ install_system() {
 EOF
 
   change_keyboard_language
-  
+
   create_user
 
   unmount -R $MOUNT_DIR
